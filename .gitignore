@@ -1,0 +1,16 @@
+logs
+target
+/RUNNING_PID
+/.vagrant
+# IntelliJ Idea files
+/.idea
+/.idea_modules
+# Eclipse files
+/bin/
+/.classpath
+/.project
+/.settings
+# Scala IDE files
+/.cache*
+
+/data
