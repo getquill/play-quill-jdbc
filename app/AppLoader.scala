@@ -23,10 +23,12 @@ class AppLoader extends ApplicationLoader {
 
 
     val router = Router.from {
-      case GET(p"/count") => countController.count
-      case GET(p"/user/${long(id)}") => userController.get(id)
+      case GET(p"/count")             => countController.count
+      case GET(p"/user/${long(id)}")  => userController.get(id)
+      case POST(p"/user")            => userController.create
     }
 
     Evolutions.applyEvolutions(dbApi.database("default"))
+    dbApi.database("default").shutdown()
   }.application
 }
