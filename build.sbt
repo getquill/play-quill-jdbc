@@ -1,4 +1,4 @@
-name := """play-quill"""
+name := """play-quill-jdbc"""
 
 version := "1.0-SNAPSHOT"
 

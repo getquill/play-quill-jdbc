@@ -1,3 +1,4 @@
+import controllers.UserController
 import io.getquill._
 import io.getquill.naming.SnakeCase
 import io.getquill.sources.sql.idiom.{H2Dialect}
@@ -18,9 +19,12 @@ class AppLoader extends ApplicationLoader {
     lazy val countController = new controllers.CountController(counter)
     lazy val db = source(new JdbcSourceConfig[H2Dialect, SnakeCase]("quill.default"))
     lazy val userServices = new UserServices(db)
+    private val userController = new UserController(userServices)
+
 
     val router = Router.from {
       case GET(p"/count") => countController.count
+      case GET(p"/user/${long(id)}") => userController.get(id)
     }
 
     Evolutions.applyEvolutions(dbApi.database("default"))
