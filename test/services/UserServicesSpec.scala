@@ -13,11 +13,9 @@ class UserServicesSpec extends WordSpec with OneAppPerTest {
 
   override def newAppForTest(testData: TestData): Application = fakeApp
 
-  lazy val db = source(new JdbcSourceConfig[H2Dialect, SnakeCase]("quill.default"))
-  lazy val userServices = new UserServices(db)
-
   "UserServices" should {
     "create and find" in {
+      val userServices = app.injector.instanceOf(classOf[UserServices])
       val user = userServices.create(User(0L, "test1", true))
       user.id !== 0L
       val userFound = userServices.find(user.id)

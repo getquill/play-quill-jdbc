@@ -19,11 +19,9 @@ class UserControllerSpec extends PlaySpec with OneAppPerTest {
 
   override def newAppForTest(testData: TestData): Application = fakeApp
 
-  lazy val db = source(new JdbcSourceConfig[H2Dialect, SnakeCase]("quill.default"))
-  lazy val userServices = new UserServices(db)
-
   "GET /user/:id" should {
     "200 OK with JSON" in {
+      val userServices = app.injector.instanceOf(classOf[UserServices])
       val user = userServices.create(User(0, s"Name${Random.nextLong()}", true))
       val json = contentAsJson(route(app, FakeRequest(GET, s"/user/${user.id}")).get)
       (json \ "name").as[String] mustBe(user.name)
