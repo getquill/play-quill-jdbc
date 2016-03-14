@@ -25,9 +25,12 @@ class AppLoader extends ApplicationLoader {
     lazy val counter = new AtomicCounter
     lazy val countController = new controllers.CountController(counter)
 
-    lazy val db = new JdbcSource[H2Dialect, SnakeCase](new JdbcSourceConfig[H2Dialect, SnakeCase]("default"){
-      override def dataSource: DataSource with Closeable = dbApi.database("default").dataSource.asInstanceOf[DataSource with Closeable]
-    })
+    lazy val db = source {
+      new JdbcSourceConfig[H2Dialect, SnakeCase]("default"){
+        override def dataSource: DataSource with Closeable = dbApi.database(name).dataSource.asInstanceOf[DataSource with Closeable]
+      }
+    }
+
 
     lazy val userServices = new UserServices(db)
     lazy val userController = new UserController(userServices)
