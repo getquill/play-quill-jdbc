@@ -34,19 +34,12 @@ class UserServices(db: JdbcDatabase) {
     }(user.id)
   }
 
-  def inactivate(user: User) = {
+  def update(user: User) = {
     db.run {
       quote {
-        (id: Long) => users.filter(_.id == id).update(_.isActive -> false)
+        (id: Long, name: String, isActive: Boolean) =>
+          users.filter(_.id == id).update(_.name -> name, _.isActive -> isActive)
       }
-    }(user.id)
-  }
-
-  def activate(user: User) = {
-    db.run {
-      quote {
-        (id: Long) => users.filter(_.id == id).update(_.isActive -> true)
-      }
-    }(user.id)
+    }(user.id, user.name, user.isActive)
   }
 }

@@ -1,17 +1,18 @@
 package controllers
 
-import scala.util.Try
-
 import play.api.libs.json._
-import play.api.mvc.{ Action, Controller }
+import play.api.libs.functional.syntax._
+import play.api.mvc.{Action, Controller}
+import services.{User, UserServices}
 
-import services.UserServices
-import services.User
-import play.api.mvc._
+class UserController(userServices: UserServices) extends Controller {
 
-class UserController (userServices: UserServices) extends Controller {
-
-  implicit val userFormatter: OFormat[User] = Json.format[User]
+  implicit val userWrites: Writes[User] = Json.writes[User]
+  implicit val userReads: Reads[User] = (
+      Reads.pure(0L) and
+      (JsPath \ "name").read[String] and
+      (JsPath \ "isActive").read[Boolean]
+    )(User.apply _)
 
   def get(id: Long) = Action { request =>
     userServices.find(id) match {
@@ -20,10 +21,13 @@ class UserController (userServices: UserServices) extends Controller {
     }
   }
 
-  def create = Action (parse.json) { request=>
+  def create = Action(parse.json) { request =>
     Json.fromJson[User](request.body).fold(
       invalid => BadRequest,
-      user => Ok(Json.toJson(userServices.create(user)))
+      user => {
+        val userCreated = userServices.create(user)
+        Created.withHeaders(LOCATION -> s"/users/${userCreated.id}")
+      }
     )
   }
 
@@ -32,27 +36,17 @@ class UserController (userServices: UserServices) extends Controller {
       case None => NotFound
       case Some(user) =>
         userServices.delete(user)
-        Ok
+        NoContent
     }
   }
 
-  def inactivate(id: Long) = Action { request =>
-    userServices.find(id) match {
-      case None => NotFound
-      case Some(user) =>
-        userServices.inactivate(user)
-        Ok
-    }
+  def update(id: Long) = Action(parse.json) { request =>
+    Json.fromJson[User](request.body).fold(
+      invalid => BadRequest,
+      user => {
+        val updated = userServices.update(user.copy(id = id))
+        NoContent
+      }
+    )
   }
-
-  def activate(id: Long) = Action { request =>
-    userServices.find(id) match {
-      case None => NotFound
-      case Some(user) =>
-        userServices.activate(user)
-        Ok
-    }
-
-  }
-
 }
