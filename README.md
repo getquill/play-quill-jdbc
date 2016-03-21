@@ -1,10 +1,10 @@
-# Play with Quill JDBC
+# Play Framework with Quill JDBC
 
 
-Starter project using Play 2.5 with [Quill](http://getquill.io/)
+Starter project using Play Framework 2.5 with [Quill](http://getquill.io/)
 
 This project is setup with:
-* [Play Evolution](https://www.playframework.com/documentation/2.5.x/Evolutions)
+* [Play Evolutions](https://www.playframework.com/documentation/2.5.x/Evolutions)
 * [Compile Time Dependency Injection](https://www.playframework.com/documentation/2.5.x/ScalaCompileTimeDependencyInjection)
 * [String Interpolating Routing DSL](https://www.playframework.com/documentation/2.5.x/ScalaSirdRouter)
 * [Quill-jdbc](http://getquill.io/#quill-jdbc)
