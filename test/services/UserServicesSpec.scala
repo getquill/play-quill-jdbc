@@ -1,11 +1,6 @@
 package services
 
-import scala.util.Random
-
 import _root_.test._
-import io.getquill._
-import io.getquill.naming.SnakeCase
-import io.getquill.sources.sql.idiom.H2Dialect
 import org.scalatest.Matchers._
 import org.scalatest.{ TestData, WordSpec }
 import org.scalatestplus.play.OneAppPerTest
