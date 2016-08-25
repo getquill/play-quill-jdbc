@@ -6,20 +6,20 @@ import play.api.Application
 import play.api.libs.json.Json
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import services.{User, UserServices}
+import models.{User, Users}
 import test._
 
 import scala.util.Random
 
-class UserControllerSpec extends PlaySpec with OneAppPerTest {
+class UsersControllerSpec extends PlaySpec with OneAppPerTest {
 
   override def newAppForTest(testData: TestData): Application = fakeApp
 
   "GET /users/:id" should {
     "return 200 OK with body" in {
-      val userServices = app.injector.instanceOf(classOf[UserServices])
+      val users = app.injector.instanceOf(classOf[Users])
       val name = s"Name${Random.nextLong()}"
-      val user = userServices.create(User(0, name, true))
+      val user = users.create(User(0, name, true))
       val response = route(app, FakeRequest(GET, s"/users/${user.id}")).get
       status(response) mustBe OK
       val json = contentAsJson(response)
@@ -42,25 +42,25 @@ class UserControllerSpec extends PlaySpec with OneAppPerTest {
 
   "DELETE /users/:id" should {
     "return 204 No Content and delete resource" in {
-      val userServices = app.injector.instanceOf(classOf[UserServices])
+      val users = app.injector.instanceOf(classOf[Users])
       val name = s"Name${Random.nextLong()}"
-      val user = userServices.create(User(0, name, true))
+      val user = users.create(User(0, name, true))
       val response = route(app, FakeRequest(DELETE, s"/users/${user.id}")).get
       status(response) mustBe NO_CONTENT
-      userServices.find(user.id) mustBe empty
+      users.find(user.id) mustBe empty
     }
   }
 
   "PUT /users/:id" should {
     "return 204 No Content and update resource" in {
-      val userServices = app.injector.instanceOf(classOf[UserServices])
+      val users = app.injector.instanceOf(classOf[Users])
       val name = s"Name${Random.nextLong()}"
-      val user = userServices.create(User(0, name, true))
+      val user = users.create(User(0, name, true))
       val updatedName = s"Name${Random.nextLong()}"
       val updateUserJson = Json.obj("name" -> updatedName, "isActive" -> true)
       val response = route(app, FakeRequest(PUT, s"/users/${user.id}").withJsonBody(updateUserJson)).get
       status(response) mustBe NO_CONTENT
-      val updatedUser = userServices.find(user.id)
+      val updatedUser = users.find(user.id)
       updatedUser.get.name mustBe updatedName
     }
   }

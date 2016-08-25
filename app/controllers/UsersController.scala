@@ -3,9 +3,9 @@ package controllers
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import play.api.mvc.{Action, Controller}
-import services.{User, UserServices}
+import models.{User, Users}
 
-class UserController(userServices: UserServices) extends Controller {
+class UsersController(userServices: Users) extends Controller {
 
   implicit val userWrites: Writes[User] = Json.writes[User]
   implicit val userReads: Reads[User] = (
@@ -44,7 +44,7 @@ class UserController(userServices: UserServices) extends Controller {
     Json.fromJson[User](request.body).fold(
       invalid => BadRequest,
       user => {
-        val updated = userServices.update(user.copy(id = id))
+        userServices.update(user.copy(id = id))
         NoContent
       }
     )
