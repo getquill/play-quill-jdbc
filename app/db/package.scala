@@ -1,7 +1,7 @@
-import io.getquill.{ H2Dialect, JdbcContext, SnakeCase }
+import io.getquill.{ H2JdbcContext, SnakeCase }
 
 package object db {
 
-  type DbContext = JdbcContext[H2Dialect, SnakeCase]
+  type DbContext = H2JdbcContext[SnakeCase]
 
 }

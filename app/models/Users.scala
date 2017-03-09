@@ -7,7 +7,7 @@ case class User (id: Long, name: String, isActive: Boolean)
 class Users(val db: DbContext) {
   import db._
 
-  val users = quote(query[User].schema(_.entity("users")))
+  val users = quote(querySchema[User]("users"))
 
   def find(id: Long) = run(users.filter(c => c.id == lift(id) && c.isActive)).headOption
 

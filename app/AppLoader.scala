@@ -15,7 +15,7 @@ import models.{Users}
 class AppLoader extends ApplicationLoader {
   override def load(context: Context): Application = new BuiltInComponentsFromContext(context) with DBComponents with HikariCPComponents {
 
-    lazy val db = new JdbcContext[H2Dialect, SnakeCase](dbApi.database("default").dataSource.asInstanceOf[DataSource with Closeable])
+    lazy val db = new H2JdbcContext[SnakeCase](dbApi.database("default").dataSource.asInstanceOf[DataSource with Closeable])
 
 
     lazy val users = new Users(db)
