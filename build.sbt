@@ -4,16 +4,15 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.12.18"
 
 libraryDependencies ++= Seq(
   jdbc,
-  cache,
   ws,
-  "org.scalatestplus.play" %% "scalatestplus-play" % "1.5.0-RC1" % Test,
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.3" % Test,
   "com.h2database" % "h2" % "1.4.190",
-  "io.getquill" %% "quill-jdbc" % "1.1.0",
-  "com.typesafe.play" % "play-jdbc-evolutions_2.11" % "2.5.12"
+  "io.getquill" %% "quill-jdbc" % "1.2.1",
+  "com.typesafe.play" %% "play-jdbc-evolutions" % "2.6.25"
 )
 
 resolvers ++= Seq(
