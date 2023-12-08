@@ -1,7 +1,7 @@
 # Play Framework with Quill JDBC
 
 
-Starter project using Play Framework 2.5 with [Quill](http://getquill.io/)
+Starter project using Play Framework 2.6 with [Quill](http://getquill.io/)
 
 This project is setup with:
 * [Play Evolutions](https://www.playframework.com/documentation/2.5.x/Evolutions)

@@ -1,9 +1,8 @@
 import java.io.File
-
-import play.api.{Environment, ApplicationLoader, Mode}
+import play.api.{Application, ApplicationLoader, Environment, Mode}
 
 package object test {
-  def fakeApp = {
+  def fakeApp: Application = {
     val appLoader = new AppLoader
 
     val context = ApplicationLoader.createContext(
